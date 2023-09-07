@@ -116,3 +116,16 @@ by
 ```python
 from torch.cuda import amp
 ```
+
+8. We need to install `en_core_web_sm`, when trying to train a model:
+
+```bash
+python -m spacy download en_core_web_sm
+```
+
+or use python code to install it:
+
+```python
+import spacy.cli
+spacy.cli.download("en_core_web_sm")
+```

@@ -310,6 +310,18 @@ train=biencoder_nq \
 output_dir={your output dir}
 ```
 
+> :warning: `torch.distributed.launch` would be deprecated in the future. Please use torchrun instead:
+```bash
+torchrun train_dense_encoder.py \
++nproc_per_node=3 \
+train=biencoder_nq \
+train_datasets=[nq_train] \
+dev_datasets=[nq_dev] \
+train=biencoder_nq \
+output_dir=./output_test
+```
+:warning: Attention: since `--nproc_per_node` is not supported in `torchrun`, we need to use `+nproc_per_node` instead.
+
 New model training combines two NQ datatsets:
 
 ```bash
