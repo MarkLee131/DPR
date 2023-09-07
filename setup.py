@@ -7,7 +7,7 @@
 
 from setuptools import setup
 
-with open("README.md") as f:
+with open("README.md", encoding="utf-8") as f:
     readme = f.read()
 
 setup(
@@ -27,7 +27,7 @@ setup(
         "setuptools>=18.0",
     ],
     install_requires=[
-        "faiss-cpu>=1.6.1",
+        # "faiss-cpu>=1.6.1",
         "filelock",
         "numpy",
         "regex",
