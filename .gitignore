@@ -13,3 +13,5 @@ eggs/
 .eggs/
 *.egg
 *.mmap
+data/
+checkpoints/
