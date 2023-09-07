@@ -65,3 +65,54 @@ Then we can install the left packages by rerunning:
 ```bash
 pip install .
 ```
+
+6. Install the missing packages `distributed_faiss` within the `dense_retriever.py` file:
+
+:warning: This step aims to solve the following errors:
+
+```bash
+Import "distributed_faiss.client" could not be resolved Pylance(reportMissinglmports) [Ln 194, Col 14]
+Import "distributed_faiss.index_cfg" could not be resolved Pylance(reportMissinglmports) [Ln 206, Col 14]
+Import "distributed_faiss.index_cfg" could not be resolved Pylance(reportMissinglmports) [Ln 231, Col 14]
+Import "distributed_faiss.index_state" could not be resolved Pylance(reportMissinglmports) [Ln 290, Col 14]
+```
+---
+
+(1) The package `distributed_faiss` seems not available on `pip`, but we found it on `GitHub`.
+
+```bash
+git clone https://github.com/facebookresearch/distributed-faiss.git distributed_faiss
+```
+> :warning: We need to rename the folder `distributed_faiss` to `distributed_faiss` since we would import it by this name.
+(`-` is not allowed in the name of the package.)
+
+
+(2) Install and test it accroding to the README file in it:
+
+```bash
+pip install -e .
+python -m unittest discover tests
+```
+
+(3) Then we need to replace the lines that import `distributed_faiss` in the `dense_retriever.py` file by
+replace `distributed_faiss.XXX` as `distributed_faiss.distributed_faiss.XXX`.
+
+> ? Since I did not find a better way to call the lib although we installed it in (2), I just replace it by this way. :(
+
+7. Solve the import error of `apex`:
+
+Since `apex` is deprecated: https://github.com/NVIDIA/apex/issues/1214, we need to replace the `apex` by `torch.cuda.amp`.
+
+
+
+Replace Line 502 in `train_dense_encoder.py` and Line 315 in `train_extractive_reader.py`:
+
+```python
+from apex import amp
+```
+
+by 
+
+```python
+from torch.cuda import amp
+```

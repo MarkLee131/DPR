@@ -191,7 +191,7 @@ class DenseRPCRetriever(DenseRetriever):
         use_l2_conversion: bool = False,
         nprobe: int = 256,
     ):
-        from distributed_faiss.client import IndexClient
+        from distributed_faiss.distributed_faiss.client import IndexClient
 
         super().__init__(question_encoder, batch_size, tensorizer)
         self.dim = dim
@@ -203,7 +203,7 @@ class DenseRPCRetriever(DenseRetriever):
         logger.info("Connected")
 
     def load_index(self, index_id):
-        from distributed_faiss.index_cfg import IndexCfg
+        from distributed_faiss.distributed_faiss.index_cfg import IndexCfg
 
         self.index_id = index_id
         logger.info("Loading remote index %s", index_id)
@@ -228,7 +228,7 @@ class DenseRPCRetriever(DenseRetriever):
         :param buffer_size: size of a buffer (amount of passages) to send for the indexing at once
         :return:
         """
-        from distributed_faiss.index_cfg import IndexCfg
+        from distributed_faiss.distributed_faiss.index_cfg import IndexCfg
 
         buffer = []
         idx_cfg = IndexCfg()
@@ -287,7 +287,7 @@ class DenseRPCRetriever(DenseRetriever):
         return results
 
     def _wait_index_ready(self, index_id: str):
-        from distributed_faiss.index_state import IndexState
+        from distributed_faiss.distributed_faiss.index_state import IndexState
         # TODO: move this method into IndexClient class
         while self.index_client.get_state(index_id) != IndexState.TRAINED:
             logger.info("Remote Index is not ready ...")

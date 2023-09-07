@@ -27,6 +27,7 @@ setup(
         "setuptools>=18.0",
     ],
     install_requires=[
+        "faiss-cpu==1.7.2",
         # "faiss-cpu>=1.6.1",
         "filelock",
         "numpy",

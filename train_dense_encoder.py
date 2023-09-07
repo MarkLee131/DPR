@@ -499,7 +499,9 @@ class BiEncoderTrainer(object):
             rolling_train_loss += loss.item()
 
             if cfg.fp16:
-                from apex import amp
+                # from apex import amp
+                from torch.cuda import amp 
+                # replace apex with torch.cuda.amp since apex is deprecated: https://github.com/NVIDIA/apex/issues/1214
                 with amp.scale_loss(loss, self.optimizer) as scaled_loss:
                     scaled_loss.backward()
                 if cfg.train.max_grad_norm > 0:
