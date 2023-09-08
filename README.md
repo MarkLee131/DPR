@@ -84,10 +84,10 @@ Install them separately if you want to use those encoders.
 First, you need to prepare data for either retriever or reader training.
 Each of the DPR components has its own input/output data formats. 
 You can see format descriptions below.
-DPR provides NQ & Trivia preprocessed datasets (and model checkpoints) to be downloaded from the cloud using our dpr/data/download_data.py tool. One needs to specify the resource name to be downloaded. Run 'python data/download_data.py' to see all options.
+DPR provides NQ & Trivia preprocessed datasets (and model checkpoints) to be downloaded from the cloud using our dpr/dpr/data/download_data.py tool. One needs to specify the resource name to be downloaded. Run 'python dpr/data/download_data.py' to see all options.
 
 ```bash
-python data/download_data.py \
+python dpr/data/download_data.py \
 	--resource {key from download_data.py's RESOURCES_MAP}  \
 	[optional --output_dir {your location}]
 ```
@@ -121,7 +121,7 @@ We also provide question & answers only CSV data files for all train/dev/test sp
 Use 'data.retriever.qas.*' resource keys to get respective sets for evaluation.
 
 ```bash
-python data/download_data.py
+python dpr/data/download_data.py
 	--resource data.retriever
 	[optional --output_dir {your location}]
 ```
@@ -291,9 +291,9 @@ e2e example with the best settings for NQ dataset.
 ### 1. Download all retriever training and validation data:
 
 ```bash
-python data/download_data.py --resource data.wikipedia_split.psgs_w100
-python data/download_data.py --resource data.retriever.nq
-python data/download_data.py --resource data.retriever.qas.nq
+python dpr/data/download_data.py --resource data.wikipedia_split.psgs_w100
+python dpr/data/download_data.py --resource data.retriever.nq
+python dpr/data/download_data.py --resource data.retriever.qas.nq
 ```
 
 ### 2. Biencoder(Retriever) training in the single set mode.
@@ -309,6 +309,39 @@ dev_datasets=[nq_dev] \
 train=biencoder_nq \
 output_dir={your output dir}
 ```
+
+```bash
+python -m torch.distributed.launch --nproc_per_node=4
+train_dense_encoder.py \
+train=biencoder_nq \
+train_datasets=[nq_train] \
+dev_datasets=[nq_dev] \
+train=biencoder_nq \
+output_dir=./output_test
+```
+
+```bash
+python -m  torch.distributed.launch +nproc_per_node=4
+train_dense_encoder.py
+train=biencoder_nq \
+train_datasets=[nq_train] \
+dev_datasets=[nq_dev] \
+train=biencoder_nq \
+output_dir=./output_test
+
+```
+
+:warning: `torch.distributed.launch` would be deprecated in the future. Please use torchrun instead:
+```bash
+torchrun train_dense_encoder.py \
++nproc_per_node=4 \
+train=biencoder_nq \
+train_datasets=[nq_train] \
+dev_datasets=[nq_dev] \
+train=biencoder_nq \
+output_dir=./output_test
+```
+:warning: Attention: since `--nproc_per_node` is not supported in `torchrun`, we need to use `+nproc_per_node` instead.
 
 New model training combines two NQ datatsets:
 
