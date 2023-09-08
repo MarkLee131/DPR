@@ -15,4 +15,4 @@ eggs/
 *.mmap
 downloads/
 checkpoints/
-output/
+outputs/

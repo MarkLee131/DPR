@@ -7,8 +7,8 @@
 
 from setuptools import setup
 
-with open("README.md", encoding="utf-8") as f:
-    readme = f.read()
+# with open("README.md", encoding="utf-8") as f:
+#     readme = f.read()
 
 setup(
     name="dpr",
@@ -21,18 +21,17 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    long_description=readme,
+    # long_description=readme,
     long_description_content_type="text/markdown",
     setup_requires=[
         "setuptools>=18.0",
     ],
     install_requires=[
-        "faiss-cpu==1.7.2",
-        # "faiss-cpu>=1.6.1",
+        "faiss-cpu==1.6.1",
         "filelock",
         "numpy",
         "regex",
-        "torch>=1.5.0",
+        "torch==1.5.0",
         "transformers>=4.3",
         "tqdm>=4.27",
         "wget",

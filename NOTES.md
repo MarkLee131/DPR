@@ -129,3 +129,6 @@ or use python code to install it:
 import spacy.cli
 spacy.cli.download("en_core_web_sm")
 ```
+
+9. When trainning the model example, we found that there missed a package `cupy`, so we need to install it:
+
