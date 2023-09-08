@@ -132,3 +132,33 @@ spacy.cli.download("en_core_web_sm")
 
 9. When trainning the model example, we found that there missed a package `cupy`, so we need to install it:
 
+10. Configure the `torch`, `cuda`, and `nccl` version:
+
+Since we got the following error when training the model:
+
+```bash
+unhandled cuda error, NCCL version 2.7.8` error
+```
+
+and 
+
+```bash
+RuntimeError: CUDA error: no kernel image is available for execution on the device
+```
+
+
+
+
+(1) Uninstall the `nccl`:
+
+```bash
+sudo apt-get remove libnccl2 libnccl-dev
+```
+
+
+(2) [stackoverflow issue](https://stackoverflow.com/questions/66807131/how-to-solve-the-famous-unhandled-cuda-error-nccl-version-2-7-8-error)
+
+```bash
+conda install pytorch=1.7.1 cudatoolkit=11.0 -c pytorch -c nvidia
+```
+
